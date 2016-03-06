@@ -2,3 +2,34 @@
 
 # Main tasks file for redis role
 
+- name: Load distribution variables
+  include_vars: "{{ role_path }}/vars/{{ ansible_distribution | lower }}.yml"
+  tags:
+    - redis
+    - install
+
+- name: Manage distribution specific installation tasks
+  include: "{{ role_path }}/tasks/install_{{ ansible_distribution|lower }}.yml"
+  tags:
+    - redis
+    - install
+
+- name: Install packages
+  become: True
+  package:
+    name: "{{ item }}"
+  with_items: "{{ redis_packages }}"
+  tags:
+    - redis
+    - install
+
+- name: Enable service
+  become: True
+  service:
+    name: "{{ redis_service_name }}"
+    state: "{{ redis_service_state }}"
+    enabled: "{{ redis_service_enabled }}"
+  tags:
+    - redis
+    - install
+
