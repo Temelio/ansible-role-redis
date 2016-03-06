@@ -16,6 +16,9 @@ env:
     - ANSIBLE_ROLES_PATH="${TRAVIS_BUILD_DIR%/*/*}"
 
 before_install:
+  # Remove embeded redis package
+  - sudo apt-get purge redis-server -y
+
   # Make sure everything's up to date.
   - sudo apt-get update -qq
 
