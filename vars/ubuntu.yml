@@ -5,5 +5,5 @@
 redis_packages:
   - 'redis-server'
 
-redis_service_name: 'redis-server'
+redis_server_service_name: 'redis-server'
 

@@ -18,10 +18,17 @@
   become: True
   package:
     name: "{{ item }}"
+  notify: 'restart_redis_server'
   with_items: "{{ redis_packages }}"
   tags:
     - redis
     - install
+
+- name: Manage configuration
+  include: "{{ role_path }}/tasks/manage_configuration.yml"
+  tags:
+    - redis
+    - config
 
 - name: Include tasks about firewall configuration with ferm
   include: "{{ role_path }}/tasks/manage_firewall_rules_with_ferm.yml"
@@ -30,12 +37,12 @@
     - config
     - redis
 
-- name: Enable service
+- name: Enable redis server service
   become: True
   service:
-    name: "{{ redis_service_name }}"
-    state: "{{ redis_service_state }}"
-    enabled: "{{ redis_service_enabled }}"
+    name: "{{ redis_server_service_name }}"
+    state: "{{ redis_server_service_state }}"
+    enabled: "{{ redis_server_service_enabled }}"
   tags:
     - redis
     - install
