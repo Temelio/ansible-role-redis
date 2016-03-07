@@ -2,3 +2,9 @@
 
 # Handlers main file for redis role
 
+- name: restart_redis_server
+  become: True
+  service:
+    name: "{{ redis_server_service_name }}"
+    state: 'restarted'
+
