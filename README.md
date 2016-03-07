@@ -36,9 +36,27 @@ This role contains two tests methods :
 
 ### Default role variables
 
+    # Firewall configuration
+    #-----------------------
+    redis_firewall_managed_with_ferm: False
+    redis_ferm_input_rules_file: '/etc/ferm/input/redis.conf'
+    redis_ferm_files_owner: 'root'
+    redis_ferm_files_group: 'root'
+    redis_ferm_files_mode: '0400'
+    redis_ferm_main_config_file: '/etc/ferm/ferm.conf'
+    redis_ferm_service_name: 'ferm'
+    redis_ferm_input_rules:
+      - 'proto tcp mod tcp dport 6379 ACCEPT;'
+
 ## Dependencies
 
+### Mandatory dependencies
+
 None
+
+### Optional dependencies
+
+- Temelio.ferm
 
 ## Example Playbook
 

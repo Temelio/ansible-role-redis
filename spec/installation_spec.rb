@@ -1,7 +1,13 @@
 require 'serverspec'
 
+do_iptables_tests = true
+
 if ENV['TRAVIS']
     set :backend, :exec
+
+    if ENV['FERM_MANAGEMENT'] != false
+        do_iptables_tests = false
+    end
 end
 
 describe 'redis Ansible role' do
@@ -47,6 +53,13 @@ describe 'redis Ansible role' do
     describe service(service_name) do
         it { should be_enabled }
         it { should be_running }
+    end
+
+    if do_iptables_tests == true
+        describe iptables() do
+            it { should have_rule
+                    '-A INPUT -p tcp -m tcp --dport 6379 -j ACCEPT' }
+        end
     end
 end
 
