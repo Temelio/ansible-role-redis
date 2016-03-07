@@ -14,5 +14,7 @@ galaxy_info:
   galaxy_tags:
     - database
     - nosql
-dependencies: []
+dependencies:
+  - role: Temelio.ferm
+    when: redis_firewall_managed_with_ferm
 

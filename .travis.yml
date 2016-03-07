@@ -13,7 +13,11 @@ rvm:
   - 2.1.5
 
 env:
+  global:
     - ANSIBLE_ROLES_PATH="${TRAVIS_BUILD_DIR%/*/*}"
+  matrix:
+    - FERM_MANAGEMENT=true
+    - FERM_MANAGEMENT=false
 
 before_install:
   # Remove embeded redis package
@@ -38,7 +42,10 @@ before_install:
 install:
 
   # Add ansible.cfg to pick up roles path.
-  - "cp ./tests/ansible.cfg ./"
+  - cp ./tests/ansible.cfg ./
+
+  # Install role dependencies
+  - sudo ansible-galaxy install -r tests/requirements.yml -p ../
 
 script:
   # Check the role/playbook's syntax.
