@@ -1,0 +1,9 @@
+---
+
+# Ubuntu specific vars
+
+redis_packages:
+  - 'redis-server'
+
+redis_server_service_name: 'redis-server'
+
