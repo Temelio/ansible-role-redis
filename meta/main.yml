@@ -1,20 +1,19 @@
 ---
 
 galaxy_info:
-  author: Alexandre Chaussier
-  description: Install and configure Redis
-  company: Infopen (http://www.infopen.pro)
-  license: MIT
-  min_ansible_version: 2.0
-  github_branch: master
+  author: 'Alexandre Chaussier'
+  description: 'Install and configure Redis'
+  company: 'Infopen (http://www.infopen.pro)'
+  license: 'MIT'
+  min_ansible_version: '2.0'
+  github_branch: 'master'
   platforms:
-    - name: Ubuntu
+    - name: 'Ubuntu'
       versions:
-        - trusty
+        - 'trusty'
   galaxy_tags:
-    - database
-    - nosql
+    - 'database'
+    - 'nosql'
 dependencies:
-  - role: Temelio.ferm
-    when: redis_firewall_managed_with_ferm
-
+  - role: 'Temelio.ferm'
+    when: "{{ redis_firewall_managed_with_ferm }}"
