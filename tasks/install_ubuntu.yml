@@ -2,7 +2,7 @@
 
 # Specific install tasks for Ubuntu distribution
 
-- name: Install repository
+- name: 'Install repository'
   become: True
   template:
     src: "{{ role_path }}/templates/repositories/redis_ubuntu.list.j2"
@@ -10,30 +10,29 @@
     owner: "{{ redis_repository_file.owner }}"
     group: "{{ redis_repository_file.group }}"
     mode: "{{ redis_repository_file.mode }}"
-  register: redis_register_repository_list
-  when: redis_not_use_system_version
+  register: 'redis_register_repository_list'
+  when: "{{ redis_not_use_system_version }}"
 
 
-- name: Manage repository key
+- name: 'Manage repository key'
   become: True
   apt_key:
-    keyserver: keyserver.ubuntu.com
+    keyserver: "{{ redis_repository_keyserver }}"
     id: "{{ redis_repository_key_id }}"
-  register: redis_register_repository_key
-  when: redis_not_use_system_version
+  register: 'redis_register_repository_key'
+  when: "{{ redis_not_use_system_version }}"
 
 
-- name: Update apt cache if repository changed
+- name: 'Update apt cache if repository changed'
   become: True
   apt:
     update_cache: True
-  when: "redis_register_repository_list.changed \
-        or redis_register_repository_key.changed"
+  when: "{{ redis_register_repository_list.changed
+              or redis_register_repository_key.changed }}"
 
 
-- name: Update apt cache if repository not changed
+- name: 'Update apt cache if repository not changed'
   become: True
   apt:
     update_cache: True
     cache_valid_time: "{{ redis_repository_cache_valid_time }}"
-

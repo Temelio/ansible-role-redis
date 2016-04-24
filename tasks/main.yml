@@ -2,48 +2,52 @@
 
 # Main tasks file for redis role
 
-- name: Load distribution variables
+- name: 'Load distribution variables'
   include_vars: "{{ role_path }}/vars/{{ ansible_distribution | lower }}.yml"
   tags:
-    - redis
-    - install
+    - 'redis'
+    - 'install'
 
-- name: Manage distribution specific installation tasks
+
+- name: 'Manage distribution specific installation tasks'
   include: "{{ role_path }}/tasks/install_{{ ansible_distribution|lower }}.yml"
   tags:
-    - redis
-    - install
+    - 'redis'
+    - 'install'
 
-- name: Install packages
+
+- name: 'Install packages'
   become: True
   package:
     name: "{{ item }}"
   notify: 'restart_redis_server'
   with_items: "{{ redis_packages }}"
   tags:
-    - redis
-    - install
+    - 'redis'
+    - 'install'
 
-- name: Manage configuration
+
+- name: 'Manage configuration'
   include: "{{ role_path }}/tasks/manage_configuration.yml"
   tags:
-    - redis
-    - config
+    - 'redis'
+    - 'config'
 
-- name: Include tasks about firewall configuration with ferm
+
+- name: 'Include tasks about firewall configuration with ferm'
   include: "{{ role_path }}/tasks/manage_firewall_rules_with_ferm.yml"
-  when: redis_firewall_managed_with_ferm
+  when: "{{ redis_firewall_managed_with_ferm }}"
   tags:
-    - config
-    - redis
+    - 'config'
+    - 'redis'
 
-- name: Enable redis server service
+
+- name: 'Enable redis server service'
   become: True
   service:
     name: "{{ redis_server_service_name }}"
     state: "{{ redis_server_service_state }}"
     enabled: "{{ redis_server_service_enabled }}"
   tags:
-    - redis
-    - install
-
+    - 'redis'
+    - 'install'

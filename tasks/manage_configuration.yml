@@ -1,6 +1,6 @@
 ---
 
-- name: Create server configuration file
+- name: 'Create server configuration file'
   become: True
   template:
     src: "{{ role_path }}/templates/redis.conf.j2"
@@ -10,4 +10,3 @@
     owner: "{{ redis_server_configuration_file_owner }}"
     group: "{{ redis_server_configuration_file_group }}"
   notify: 'restart_redis_server'
-
