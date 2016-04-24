@@ -2,13 +2,12 @@
 
 # Role travis tests
 
-- hosts: localhost
-  remote_user: root
+- hosts: 'localhost'
+  remote_user: 'root'
   roles:
     - "{{ role_name }}"
   post_tasks:
-    - include: ./test_common.yml
+    - include: './test_common.yml'
   vars:
     redis_firewall_managed_with_ferm: "{{ lookup('env','FERM_MANAGEMENT') }}"
     role_name: "{{ lookup('env','TRAVIS_REPO_SLUG') }}"
-

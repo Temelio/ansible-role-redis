@@ -4,6 +4,7 @@
 
 redis_repository_cache_valid_time: 3600
 redis_not_use_system_version: True
+redis_repository_keyserver: 'keyserver.ubuntu.com'
 redis_repository_key_id: 'C7917B12'
 redis_repository_url: "http://ppa.launchpad.net/chris-lea/redis-server/{{ ansible_distribution | lower }}"
 redis_repository_file:
@@ -129,4 +130,3 @@ redis_ferm_main_config_file: '/etc/ferm/ferm.conf'
 redis_ferm_service_name: 'ferm'
 redis_ferm_input_rules:
   - 'proto tcp mod tcp dport 6379 ACCEPT;'
-

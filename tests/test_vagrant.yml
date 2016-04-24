@@ -2,13 +2,12 @@
 
 # Role Vagrant tests
 
-- hosts: all
-  remote_user: vagrant
+- hosts: 'all'
+  remote_user: 'vagrant'
   roles:
     - "{{ role_name }}"
   post_tasks:
-    - include: ./test_common.yml
+    - include: './test_common.yml'
   vars:
     redis_firewall_managed_with_ferm: True
     role_name: "{{ lookup('env','ANSIBLE_ROLE_NAME') }}"
-
