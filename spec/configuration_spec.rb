@@ -1,13 +1,7 @@
 require 'serverspec'
 
-do_iptables_tests = true
-
 if ENV['TRAVIS']
     set :backend, :exec
-
-    if ENV['FERM_MANAGEMENT'] != false
-        do_iptables_tests = false
-    end
 end
 
 describe 'redis Ansible role' do
