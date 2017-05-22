@@ -2,41 +2,44 @@
 
 # Defaults vars file for redis role
 
+# Repository management
 redis_repository_cache_valid_time: 3600
-redis_not_use_system_version: True
-redis_repository_keyserver: 'keyserver.ubuntu.com'
-redis_repository_key_id: 'C7917B12'
-redis_repository_url: "http://ppa.launchpad.net/chris-lea/redis-server/{{ ansible_distribution | lower }}"
-redis_repository_file:
-  name: 'redis.list'
-  owner: 'root'
-  group: 'root'
-  mode: '0644'
 
+redis_repository_keyserver: "{{ _redis_repository_keyserver | default('') }}"
+redis_repository_key_id: "{{ _redis_repository_key_id | default('') }}"
+redis_repositories: "{{ _redis_repositories | default([]) }}"
+
+# Package management
+redis_packages: "{{ _redis_packages }}"
+redis_not_use_system_version: True
+
+# Service management
+redis_server_service_name: "{{ _redis_server_service_name }}"
 redis_server_service_state: 'started'
 redis_server_service_enabled: True
 
 # Files configuration
 #--------------------
-redis_configuration_directory: '/etc/redis'
-redis_server_configuration_file_name: 'redis.conf'
-redis_server_configuration_file_owner: 'redis'
-redis_server_configuration_file_group: 'redis'
-redis_server_configuration_file_mode: '0600'
+redis_folders: "{{ _redis_folders }}"
+redis_server_config_file:
+  name: 'redis.conf'
+  owner: 'redis'
+  group: 'redis'
+  mode: '0600'
 
 # General server configuration
 redis_server_daemonize: 'yes'
-redis_server_pid_file: '/var/run/redis/redis-server.pid'
+redis_server_pid_file: "{{ redis_folders.pid.path }}/redis-server.pid"
 redis_server_port: 6379
 redis_server_bind_ip:
   - 127.0.0.1
 redis_server_use_unixsocket: False
-redis_server_unixsocket: '/var/run/redis/redis.sock'
+redis_server_unixsocket: "{{ redis_folders.socket.path }}/redis.sock"
 redis_server_unixsocketperm: 755
 redis_server_timeout: 0
 redis_server_tcp_keepalive: 0
 redis_server_loglevel: 'notice'
-redis_server_logfile: '/var/log/redis/redis-server.log'
+redis_server_logfile: "{{ redis_folders.log.path }}/redis-server.log"
 redis_server_use_syslog: 'no'
 redis_server_syslog_enabled: 'no'
 redis_server_syslog_ident: 'redis'
@@ -52,7 +55,7 @@ redis_server_stop_writes_on_bgsave_error: 'yes'
 redis_server_rdbcompression: 'yes'
 redis_server_rdbchecksum: 'yes'
 redis_server_dbfilename: 'dump.rdb'
-redis_server_dir: '/var/lib/redis'
+redis_server_dir: "{{ redis_folders.data.path }}"
 
 # Replication configuration
 redis_server_slaveof: False

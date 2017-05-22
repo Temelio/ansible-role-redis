@@ -1,12 +1,10 @@
 ---
 
-- name: 'Create server configuration file'
-  become: True
+- name: 'CONFIG | Create server configuration file'
   template:
     src: "{{ role_path }}/templates/redis.conf.j2"
-    dest: "{{ redis_configuration_directory ~ '/'
-                ~ redis_server_configuration_file_name }}"
-    mode: "{{ redis_server_configuration_file_mode }}"
-    owner: "{{ redis_server_configuration_file_owner }}"
-    group: "{{ redis_server_configuration_file_group }}"
-  notify: 'restart_redis_server'
+    dest: "{{ redis_folders.config.path ~ '/' ~ redis_server_config_file.name }}"
+    mode: "{{ redis_server_config_file.mode }}"
+    owner: "{{ redis_server_config_file.owner }}"
+    group: "{{ redis_server_config_file.group }}"
+  notify: 'HANDLER | Restart Redis server'

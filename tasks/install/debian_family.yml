@@ -1,0 +1,39 @@
+---
+
+# Specific install tasks for Ubuntu distribution
+
+- name: 'INSTALL | APT | Configure additional repositories'
+  apt_repository:
+    repo: "{{ item.repo }}"
+    codename: "{{ item.codename | default(omit) }}"
+    filename: "{{ item.filename | default(omit) }}"
+    mode: "{{ item.mode | default(omit) }}"
+    state: "{{ item.state | default('present') }}"
+  register: 'redis_register_repository_list'
+  with_items: "{{ redis_repositories }}"
+  when: 'redis_not_use_system_version'
+
+
+- name: 'INSTALL | APT | Manage repository key'
+  apt_key:
+    keyserver: "{{ redis_repository_keyserver }}"
+    id: "{{ redis_repository_key_id }}"
+  register: 'redis_register_repository_key'
+  when: 'redis_not_use_system_version'
+
+
+- name: 'INSTALL | APT | Update apt cache if repository changed'
+  apt:
+    update_cache: True
+  when: 'redis_register_repository_list.changed
+          or redis_register_repository_key.changed'
+
+
+- name: 'INSTALL | APT | Update apt cache if repository not changed'
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state | default('present') }}"
+    update_cache: True
+    cache_valid_time: "{{ redis_repository_cache_valid_time }}"
+  notify: 'HANDLER | Restart Redis server'
+  with_items: "{{ redis_packages }}"
