@@ -2,36 +2,27 @@
 
 # Main tasks file for redis role
 
-- name: 'Load distribution variables'
-  include_vars: "{{ role_path }}/vars/{{ ansible_distribution | lower }}.yml"
+- name: 'INIT | Manage variables to use for our target'
+  include: "{{ role_path }}/tasks/manage_variables.yml"
   tags:
-    - 'redis'
-    - 'install'
+    - 'role::redis'
+    - 'role::redis::init'
 
 
 - name: 'Manage distribution specific installation tasks'
-  include: "{{ role_path }}/tasks/install_{{ ansible_distribution|lower }}.yml"
-  tags:
-    - 'redis'
-    - 'install'
-
-
-- name: 'Install packages'
   become: True
-  package:
-    name: "{{ item }}"
-  notify: 'restart_redis_server'
-  with_items: "{{ redis_packages }}"
+  include: "{{ role_path }}/tasks/install/{{ ansible_os_family | lower }}_family.yml"
   tags:
-    - 'redis'
-    - 'install'
+    - 'role::redis'
+    - 'role::redis::install'
 
 
 - name: 'Manage configuration'
+  become: True
   include: "{{ role_path }}/tasks/manage_configuration.yml"
   tags:
-    - 'redis'
-    - 'config'
+    - 'role::redis'
+    - 'role::redis::config'
 
 
 - name: 'Enable redis server service'
@@ -41,5 +32,6 @@
     state: "{{ redis_server_service_state }}"
     enabled: "{{ redis_server_service_enabled }}"
   tags:
-    - 'redis'
-    - 'install'
+    - 'role::redis'
+    - 'role::redis::config'
+    - 'role::redis::install'

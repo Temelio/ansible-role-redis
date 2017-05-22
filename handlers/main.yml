@@ -2,9 +2,12 @@
 
 # Handlers main file for redis role
 
-- name: restart_redis_server
+- name: 'HANDLER | Restart Redis server'
   become: True
   service:
     name: "{{ redis_server_service_name }}"
     state: 'restarted'
-
+  tags:
+    - 'role::redis'
+    - 'role::redis::config'
+    - 'role::redis::install'

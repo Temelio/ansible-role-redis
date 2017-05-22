@@ -1,0 +1,71 @@
+---
+
+ansible:
+  extra_vars:
+    ansible_python_interpreter: '/usr/bin/env python2.7'
+  raw_env_vars:
+    ANSIBLE_NOCOWS: 1
+  group_vars:
+    all:
+    redis_server_service_enabled: False
+  host_vars:
+    redis-docker-jessie:
+      redis_not_use_system_version: False
+    redis-vagrant-jessie:
+      redis_not_use_system_version: False
+dependency:
+  name: 'galaxy'
+driver:
+  name: 'docker'
+docker:
+  containers:
+    - name: 'redis-docker-jessie'
+      image: 'debian'
+      image_version: 'jessie'
+      cap_add:
+        - 'SYS_PTRACE'
+    - name: 'redis-docker-trusty'
+      image: 'ubuntu'
+      image_version: 'trusty'
+      cap_add:
+        - 'SYS_PTRACE'
+    - name: 'redis-docker-xenial'
+      image: 'ubuntu'
+      image_version: 'xenial'
+      cap_add:
+        - 'SYS_PTRACE'
+molecule:
+  ignore_paths:
+    - '.git'
+    - '.molecule'
+    - '.tox'
+    - '.vagrant'
+vagrant:
+  platforms:
+    - name: 'jessie'
+      box: 'debian/jessie64'
+      linked_clone: True
+    - name: 'trusty'
+      box: 'ubuntu/trusty64'
+      linked_clone: True
+    - name: 'xenial'
+      box: 'ubuntu/xenial64'
+      linked_clone: True
+  providers:
+    - name: 'virtualbox'
+      type: 'virtualbox'
+      options:
+        memory: 512
+        cpus: 1
+  instances:
+    - name: 'redis-vagrant'
+      interfaces:
+        - network_name: 'private_network'
+          type: 'dhcp'
+          auto_config: True
+      options:
+        append_platform_to_hostname: True
+verifier:
+  name: 'testinfra'
+  options:
+    sudo: True
