@@ -1,6 +1,10 @@
 # redis
 
-[![Build Status](https://travis-ci.org/infOpen/ansible-role-redis.svg?branch=master)](https://travis-ci.org/infOpen/ansible-role-redis)
+[![Build Status](https://img.shields.io/travis/infOpen/ansible-role-redis/master.svg?label=travis_master)](https://travis-ci.org/infOpen/ansible-role-redis)
+[![Build Status](https://img.shields.io/travis/infOpen/ansible-role-redis/develop.svg?label=travis_develop)](https://travis-ci.org/infOpen/ansible-role-redis)
+[![Updates](https://pyup.io/repos/github/infOpen/ansible-role-redis/shield.svg)](https://pyup.io/repos/github/infOpen/ansible-role-redis/)
+[![Python 3](https://pyup.io/repos/github/infOpen/ansible-role-redis/python-3-shield.svg)](https://pyup.io/repos/github/infOpen/ansible-role-redis/)
+[![Ansible Role](https://img.shields.io/ansible/role/8368.svg)](https://galaxy.ansible.com/infOpen/redis/)
 
 Install redis package.
 
