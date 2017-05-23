@@ -45,6 +45,12 @@ $ tox
 $ MOLECULE_DRIVER=vagrant tox
 ```
 
+## Additional repository management
+
+To have a more recent Redis version and have access to Sentinel on Debian Jessie, addtional repositories must be used via *redis_manage_additional_repository* variable.
+
+You can see these repositories below, in OS distribution variables.
+
 ## Role Variables
 
 ### Default role variables
@@ -210,6 +216,16 @@ _redis_repositories:
       deb-src http://ppa.launchpad.net/chris-lea/redis-server/{{ ansible_distribution | lower }}
       {{ ansible_distribution_release }}
       main
+```
+
+### Ubuntu distributions variables
+
+``` yaml
+_redis_repository_keyserver: 'keyserver.ubuntu.com'
+_redis_repository_key_id: '7E3F070089DF5277'
+_redis_repositories:
+  - repo: 'deb http://ftp.utexas.edu/dotdeb/ stable all'
+  - repo: 'deb-src http://ftp.utexas.edu/dotdeb/ stable all'
 ```
 
 ## Dependencies

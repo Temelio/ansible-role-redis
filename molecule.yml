@@ -6,13 +6,7 @@ ansible:
   raw_env_vars:
     ANSIBLE_NOCOWS: 1
   group_vars:
-    all:
-    redis_server_service_enabled: False
-  host_vars:
-    redis-docker-jessie:
-      redis_manage_additional_repository: False
-    redis-vagrant-jessie:
-      redis_manage_additional_repository: False
+    all: {}
 dependency:
   name: 'galaxy'
 driver:
