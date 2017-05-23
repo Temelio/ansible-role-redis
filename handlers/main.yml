@@ -11,3 +11,14 @@
     - 'role::redis'
     - 'role::redis::config'
     - 'role::redis::install'
+
+
+- name: 'HANDLER | Restart Redis Sentinel'
+  become: True
+  service:
+    name: "{{ redis_sentinel_service_name }}"
+    state: 'restarted'
+  tags:
+    - 'role::redis'
+    - 'role::redis::config'
+    - 'role::redis::install'

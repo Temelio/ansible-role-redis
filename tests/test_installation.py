@@ -17,6 +17,7 @@ def test_packages(host):
     if host.system_info.distribution in ('debian', 'ubuntu'):
         packages = [
             'redis-server',
+            'redis-sentinel',
         ]
 
     for package in packages:

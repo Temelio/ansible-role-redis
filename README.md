@@ -58,6 +58,7 @@ You can see these repositories below, in OS distribution variables.
 ``` yaml
 # General
 redis_manage_additional_repository: True
+redis_manage_redis_sentinel: False
 redis_manage_redis_server: True
 
 # Repository management
@@ -65,6 +66,10 @@ redis_repository_cache_valid_time: 3600
 redis_repository_keyserver: "{{ _redis_repository_keyserver | default('') }}"
 redis_repository_key_id: "{{ _redis_repository_key_id | default('') }}"
 redis_repositories: "{{ _redis_repositories | default([]) }}"
+
+
+# Redis server specific vars
+#------------------------------------------------------------------------------
 
 # Package management
 redis_server_packages: "{{ _redis_server_packages }}"
@@ -176,18 +181,23 @@ redis_server_aof_rewrite_incremental_fsync: 'yes'
 
 # Includes
 redis_server_include: []
+
+
+# Redis sentinel specific vars
+#------------------------------------------------------------------------------
+
+# Package management
+redis_sentinel_packages: "{{ _redis_sentinel_packages }}"
+
+# Service management
+redis_sentinel_service_name: "{{ _redis_sentinel_service_name }}"
+redis_sentinel_service_state: 'started'
+redis_sentinel_service_enabled: True
 ```
 
 ### Debian OS family variables
 
 ``` yaml
-# Packages management
-_redis_server_packages:
-  - name: 'redis-server'
-
-# Service management
-_redis_server_service_name: 'redis-server'
-
 # Redis paths
 _redis_folders:
   config:
@@ -200,6 +210,28 @@ _redis_folders:
     path: '/var/run/redis'
   socket:
     path: '/var/run/redis'
+
+
+# Redis server specific vars
+#------------------------------------------------------------------------------
+
+# Packages management
+_redis_server_packages:
+  - name: 'redis-server'
+
+# Service management
+_redis_server_service_name: 'redis-server'
+
+
+# Redis sentinel specific vars
+#------------------------------------------------------------------------------
+
+# Packages management
+_redis_sentinel_packages:
+  - name: 'redis-sentinel'
+
+# Service management
+_redis_sentinel_service_name: 'redis-sentinel'
 ```
 
 ### Ubuntu distributions variables

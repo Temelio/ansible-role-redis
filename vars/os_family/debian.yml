@@ -2,13 +2,6 @@
 
 # Debian family specific vars
 
-# Packages management
-_redis_server_packages:
-  - name: 'redis-server'
-
-# Service management
-_redis_server_service_name: 'redis-server'
-
 # Redis paths
 _redis_folders:
   config:
@@ -21,3 +14,25 @@ _redis_folders:
     path: '/var/run/redis'
   socket:
     path: '/var/run/redis'
+
+
+# Redis server specific vars
+#------------------------------------------------------------------------------
+
+# Packages management
+_redis_server_packages:
+  - name: 'redis-server'
+
+# Service management
+_redis_server_service_name: 'redis-server'
+
+
+# Redis sentinel specific vars
+#------------------------------------------------------------------------------
+
+# Packages management
+_redis_sentinel_packages:
+  - name: 'redis-sentinel'
+
+# Service management
+_redis_sentinel_service_name: 'redis-sentinel'

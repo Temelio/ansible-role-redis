@@ -20,7 +20,7 @@
   when: 'redis_manage_additional_repository'
 
 
-- name: 'INSTALL | APT | Update apt cache if repository not changed'
+- name: 'INSTALL | APT | Install Redis server packages'
   apt:
     name: "{{ item.name }}"
     state: "{{ item.state | default('present') }}"
@@ -29,3 +29,14 @@
   notify: 'HANDLER | Restart Redis server'
   with_items: "{{ redis_server_packages }}"
   when: 'redis_manage_redis_server'
+
+
+- name: 'INSTALL | APT | Install Redis Sentinel packages'
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state | default('present') }}"
+    update_cache: True
+    cache_valid_time: "{{ redis_repository_cache_valid_time }}"
+  notify: 'HANDLER | Restart Redis Sentinel'
+  with_items: "{{ redis_sentinel_packages }}"
+  when: 'redis_manage_redis_sentinel'
