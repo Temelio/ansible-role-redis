@@ -10,9 +10,9 @@ ansible:
     redis_server_service_enabled: False
   host_vars:
     redis-docker-jessie:
-      redis_not_use_system_version: False
+      redis_manage_additional_repository: False
     redis-vagrant-jessie:
-      redis_not_use_system_version: False
+      redis_manage_additional_repository: False
 dependency:
   name: 'galaxy'
 driver:
