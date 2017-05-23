@@ -50,16 +50,18 @@ $ MOLECULE_DRIVER=vagrant tox
 ### Default role variables
 
 ``` yaml
+# General
+redis_manage_additional_repository: True
+redis_manage_redis_server: True
+
 # Repository management
 redis_repository_cache_valid_time: 3600
-
 redis_repository_keyserver: "{{ _redis_repository_keyserver | default('') }}"
 redis_repository_key_id: "{{ _redis_repository_key_id | default('') }}"
 redis_repositories: "{{ _redis_repositories | default([]) }}"
 
 # Package management
-redis_packages: "{{ _redis_packages }}"
-redis_not_use_system_version: True
+redis_server_packages: "{{ _redis_server_packages }}"
 
 # Service management
 redis_server_service_name: "{{ _redis_server_service_name }}"
@@ -174,7 +176,7 @@ redis_server_include: []
 
 ``` yaml
 # Packages management
-_redis_packages:
+_redis_server_packages:
   - name: 'redis-server'
 
 # Service management

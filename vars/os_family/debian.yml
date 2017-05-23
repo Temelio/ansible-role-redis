@@ -3,7 +3,7 @@
 # Debian family specific vars
 
 # Packages management
-_redis_packages:
+_redis_server_packages:
   - name: 'redis-server'
 
 # Service management

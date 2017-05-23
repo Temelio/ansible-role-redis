@@ -27,4 +27,5 @@
     update_cache: True
     cache_valid_time: "{{ redis_repository_cache_valid_time }}"
   notify: 'HANDLER | Restart Redis server'
-  with_items: "{{ redis_packages }}"
+  with_items: "{{ redis_server_packages }}"
+  when: 'redis_manage_redis_server'
