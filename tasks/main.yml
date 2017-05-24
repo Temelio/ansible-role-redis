@@ -9,7 +9,7 @@
     - 'role::redis::init'
 
 
-- name: 'Manage distribution specific installation tasks'
+- name: 'INSTALL | Manage distribution specific installation tasks'
   become: True
   include: "{{ role_path }}/tasks/install/{{ ansible_os_family | lower }}_family.yml"
   tags:
@@ -17,7 +17,7 @@
     - 'role::redis::install'
 
 
-- name: 'Manage configuration'
+- name: 'CONFIG | Manage configuration'
   become: True
   include: "{{ role_path }}/tasks/manage_configuration.yml"
   tags:
@@ -25,12 +25,9 @@
     - 'role::redis::config'
 
 
-- name: 'Enable redis server service'
+- name: 'SERVICE | Manage Redis services'
   become: True
-  service:
-    name: "{{ redis_server_service_name }}"
-    state: "{{ redis_server_service_state }}"
-    enabled: "{{ redis_server_service_enabled }}"
+  include: "{{ role_path }}/tasks/manage_services.yml"
   tags:
     - 'role::redis'
     - 'role::redis::config'
