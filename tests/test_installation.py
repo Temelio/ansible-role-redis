@@ -17,27 +17,29 @@ def test_packages(host):
     if host.system_info.distribution in ('debian', 'ubuntu'):
         packages = [
             'redis-server',
+            'redis-sentinel',
         ]
 
     for package in packages:
         assert host.package(package).is_installed
 
 
-def test_redis_server_service(host):
+def test_redis_services(host):
     """
-    Check if database service is started and enabled
+    Check if database and sentinel services are started and enabled
     """
 
-    service = ''
+    services = []
 
     if host.system_info.distribution in ('debian', 'ubuntu'):
-        service = 'redis-server'
+        services = ['redis-server', 'redis-sentinel']
 
-    assert host.service(service).is_enabled
+    for service in services:
+        assert host.service(service).is_enabled
 
-    # Systemctl not available with Docker images
-    if host.backend.NAME != 'docker':
-        assert host.service(service).is_running
+        # Systemctl not available with Docker images
+        if host.backend.NAME != 'docker':
+            assert host.service(service).is_running
 
 
 def test_system_user(host):
@@ -60,7 +62,8 @@ def test_config_files(host):
 
     if host.system_info.distribution in ('debian', 'ubuntu'):
         config_files = [
-            '/etc/redis/redis.conf'
+            '/etc/redis/redis.conf',
+            '/etc/redis/sentinel.conf',
         ]
 
     for config_file in config_files:
@@ -70,17 +73,25 @@ def test_config_files(host):
         assert host.file(config_file).mode == 0o600
 
 
-def test_redis_server_socket(host):
+def test_redis_sockets(host):
     """
-    Check if Redis server listening
+    Check if Redis server and Sentinel are listening
     """
 
+    # Redis server
     assert host.socket('tcp://127.0.0.1:6379').is_listening
 
+    # Redis Sentinel
+    assert host.socket('tcp://127.0.0.1:26379').is_listening
 
-def test_redis_server_process(host):
+
+def test_redis_processes(host):
     """
-    Check if Redis server process running
+    Check if Redis server and Sentinel processes are running
     """
 
+    # Redis server
     assert len(host.process.filter(user='redis', comm='redis-server')) == 1
+
+    # Redis Sentinel
+    assert len(host.process.filter(user='redis', comm='redis-sentinel')) == 1

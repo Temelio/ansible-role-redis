@@ -1,0 +1,44 @@
+# {{ ansible_managed }}
+
+daemonize {{ redis_sentinel_daemonize | ternary('yes', 'no') }}
+
+protected-mode {{ redis_sentinel_protected_mode | ternary('yes', 'no') }}
+
+{% if redis_sentinel_bind != None %}
+bind {{ redis_sentinel_bind }}
+{% endif %}
+port 26379
+{% if redis_sentinel_announce_ip != None %}
+sentinel announce-ip {{ redis_sentinel_announce_ip }}
+{% endif %}
+{% if redis_sentinel_announce_port != None %}
+sentinel announce-port {{ redis_sentinel_announce_port }}
+{% endif %}
+
+# Paths
+dir "/var/lib/redis"
+pidfile "{{ redis_sentinel_pidfile }}"
+logfile "{{ redis_sentinel_logfile }}"
+
+# Masters management
+{% if redis_sentinel_myid != None %}
+sentinel myid {{ redis_sentinel_myid }}
+{% endif %}
+{% for master in redis_sentinel_monitors -%}
+sentinel monitor {{ master.name }} {{ master.host }} {{ master.port }} {{ master.quorum | default('2') }}
+{% set master_trusted_options = [
+  'auth_pass',
+  'client_reconfig_script'
+  'config_epoch',
+  'down_after_milliseconds',
+  'failover_timeout',
+  'leader_epoch',
+  'notification_script',
+  'parallel_syncs',
+] %}
+{% for option in master_trusted_options -%}
+{% if master[option] is defined and master[option] != None -%}
+sentinel {{ option | replace('_', '-') }} {{ master.name }} {{ master[option] }}
+{% endif %}
+{% endfor -%}
+{% endfor -%}

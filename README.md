@@ -45,21 +45,34 @@ $ tox
 $ MOLECULE_DRIVER=vagrant tox
 ```
 
+## Additional repository management
+
+To have a more recent Redis version and have access to Sentinel on Debian Jessie, addtional repositories must be used via *redis_manage_additional_repository* variable.
+
+You can see these repositories below, in OS distribution variables.
+
 ## Role Variables
 
 ### Default role variables
 
 ``` yaml
+# General
+redis_manage_additional_repository: True
+redis_manage_redis_sentinel: False
+redis_manage_redis_server: True
+
 # Repository management
 redis_repository_cache_valid_time: 3600
-
 redis_repository_keyserver: "{{ _redis_repository_keyserver | default('') }}"
 redis_repository_key_id: "{{ _redis_repository_key_id | default('') }}"
 redis_repositories: "{{ _redis_repositories | default([]) }}"
 
+
+# Redis server specific vars
+#------------------------------------------------------------------------------
+
 # Package management
-redis_packages: "{{ _redis_packages }}"
-redis_not_use_system_version: True
+redis_server_packages: "{{ _redis_server_packages }}"
 
 # Service management
 redis_server_service_name: "{{ _redis_server_service_name }}"
@@ -168,18 +181,54 @@ redis_server_aof_rewrite_incremental_fsync: 'yes'
 
 # Includes
 redis_server_include: []
+
+
+# Redis sentinel specific vars
+#------------------------------------------------------------------------------
+
+# Package management
+redis_sentinel_packages: "{{ _redis_sentinel_packages }}"
+
+# Service management
+redis_sentinel_service_name: "{{ _redis_sentinel_service_name }}"
+redis_sentinel_service_state: 'started'
+redis_sentinel_service_enabled: True
+
+# Configuration file properties
+redis_sentinel_config_file:
+  name: 'sentinel.conf'
+  owner: 'redis'
+  group: 'redis'
+  mode: '0600'
+
+# Configuration
+redis_sentinel_daemonize: True
+redis_sentinel_bind: 'localhost'
+redis_sentinel_port: 26379
+redis_sentinel_protected_mode: True
+redis_sentinel_announce_ip: null
+redis_sentinel_announce_port: null
+redis_sentinel_pidfile: "{{ redis_folders.pid.path }}/redis-sentinel.pid"
+redis_sentinel_logfile: "{{ redis_folders.log.path }}/redis-sentinel.log"
+redis_sentinel_dir: "{{ redis_folders.data.path }}"
+redis_sentinel_myid: "{{ ansible_hostname | hash('sha1') }}"
+redis_sentinel_monitors:
+  - name: 'mymaster'
+    host: '127.0.0.1'
+    port: 6379
+    quorum: 2
+    config_epoch: 0
+    down_after_milliseconds: 30000
+    leader_epoch: 0
+    parallel_syncs: 1
+    failover_timeout: 180000
+    notification_script: null
+    client_reconfig_script: null
 ```
 
 ### Debian OS family variables
 
 ``` yaml
-# Packages management
-_redis_packages:
-  - name: 'redis-server'
-
-# Service management
-_redis_server_service_name: 'redis-server'
-
 # Redis paths
 _redis_folders:
   config:
@@ -192,6 +241,28 @@ _redis_folders:
     path: '/var/run/redis'
   socket:
     path: '/var/run/redis'
+
+
+# Redis server specific vars
+#------------------------------------------------------------------------------
+
+# Packages management
+_redis_server_packages:
+  - name: 'redis-server'
+
+# Service management
+_redis_server_service_name: 'redis-server'
+
+
+# Redis sentinel specific vars
+#------------------------------------------------------------------------------
+
+# Packages management
+_redis_sentinel_packages:
+  - name: 'redis-sentinel'
+
+# Service management
+_redis_sentinel_service_name: 'redis-sentinel'
 ```
 
 ### Ubuntu distributions variables
@@ -208,6 +279,16 @@ _redis_repositories:
       deb-src http://ppa.launchpad.net/chris-lea/redis-server/{{ ansible_distribution | lower }}
       {{ ansible_distribution_release }}
       main
+```
+
+### Ubuntu distributions variables
+
+``` yaml
+_redis_repository_keyserver: 'keyserver.ubuntu.com'
+_redis_repository_key_id: '7E3F070089DF5277'
+_redis_repositories:
+  - repo: 'deb http://ftp.utexas.edu/dotdeb/ stable all'
+  - repo: 'deb-src http://ftp.utexas.edu/dotdeb/ stable all'
 ```
 
 ## Dependencies
