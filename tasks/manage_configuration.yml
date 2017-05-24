@@ -9,3 +9,14 @@
     group: "{{ redis_server_config_file.group }}"
   notify: 'HANDLER | Restart Redis server'
   when: 'redis_manage_redis_server'
+
+
+- name: 'CONFIG | Create Redis Sentinel configuration file'
+  template:
+    src: "{{ role_path }}/templates/sentinel.conf.j2"
+    dest: "{{ redis_folders.config.path ~ '/' ~ redis_sentinel_config_file.name }}"
+    mode: "{{ redis_sentinel_config_file.mode }}"
+    owner: "{{ redis_sentinel_config_file.owner }}"
+    group: "{{ redis_sentinel_config_file.group }}"
+  notify: 'HANDLER | Restart Redis Sentinel'
+  when: 'redis_manage_redis_sentinel'

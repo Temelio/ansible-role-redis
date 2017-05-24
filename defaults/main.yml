@@ -139,3 +139,34 @@ redis_sentinel_packages: "{{ _redis_sentinel_packages }}"
 redis_sentinel_service_name: "{{ _redis_sentinel_service_name }}"
 redis_sentinel_service_state: 'started'
 redis_sentinel_service_enabled: True
+
+# Configuration file properties
+redis_sentinel_config_file:
+  name: 'sentinel.conf'
+  owner: 'redis'
+  group: 'redis'
+  mode: '0600'
+
+# Configuration
+redis_sentinel_daemonize: True
+redis_sentinel_bind: 'localhost'
+redis_sentinel_port: 26379
+redis_sentinel_protected_mode: True
+redis_sentinel_announce_ip: null
+redis_sentinel_announce_port: null
+redis_sentinel_pidfile: "{{ redis_folders.pid.path }}/redis-sentinel.pid"
+redis_sentinel_logfile: "{{ redis_folders.log.path }}/redis-sentinel.log"
+redis_sentinel_dir: "{{ redis_folders.data.path }}"
+redis_sentinel_myid: "{{ ansible_hostname | hash('sha1') }}"
+redis_sentinel_monitors:
+  - name: 'mymaster'
+    host: '127.0.0.1'
+    port: 6379
+    quorum: 2
+    config_epoch: 0
+    down_after_milliseconds: 30000
+    leader_epoch: 0
+    parallel_syncs: 1
+    failover_timeout: 180000
+    notification_script: null
+    client_reconfig_script: null

@@ -1,0 +1,16 @@
+---
+
+# Redis services management tasks
+
+- name: 'SERVICE | Manage Redis Server service'
+  service:
+    name: "{{ redis_server_service_name }}"
+    state: "{{ redis_server_service_state }}"
+    enabled: "{{ redis_server_service_enabled }}"
+
+
+- name: 'SERVICE | Manage Redis Sentinel service'
+  service:
+    name: "{{ redis_sentinel_service_name }}"
+    state: "{{ redis_sentinel_service_state }}"
+    enabled: "{{ redis_sentinel_service_enabled }}"
