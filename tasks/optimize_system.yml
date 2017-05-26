@@ -1,0 +1,20 @@
+---
+
+# Tasks to optimize Redis performances
+
+- name: 'INSTALL | OPTIMIZE | Enable overcommit_memory setting'
+  sysctl:
+    name: 'vm.overcommit_memory'
+    value: "{{ redis_system_optimization_overcommit_memory_value }}"
+    state: "{{ redis_system_optimization_overcommit_memory_state }}"
+    sysctl_set: True
+  notify: 'HANDLER | Restart Redis server'
+
+
+- name: 'INSTALL | OPTIMIZE | Increase max connections setting'
+  sysctl:
+    name: 'net.core.somaxconn'
+    value: "{{ redis_system_optimization_somaxconn_value }}"
+    state: "{{ redis_system_optimization_somaxconn_state }}"
+    sysctl_set: True
+  notify: 'HANDLER | Restart Redis server'

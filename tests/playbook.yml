@@ -25,6 +25,11 @@
       changed_when: False
       when: "ansible_os_family | lower == 'debian'"
   roles:
+    - role: 'infOpen.sysfs'
+
+
+- hosts: 'all'
+  roles:
     - role: "{{ role_name }}"
   vars:
     role_name: "{{ playbook_dir | basename }}"

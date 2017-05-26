@@ -8,6 +8,10 @@
 
 Install redis package.
 
+> By default, this role will also managed sysctl settings (overcommit, somaxconn) to remove warnings
+> You also need Transparent Huge Pages management, see infopen.sysfs role to manage these settings per example
+> I've set it for test dependencies only
+
 ## Requirements
 
 This role requires Ansible 2.0 or higher,
@@ -57,6 +61,7 @@ You can see these repositories below, in OS distribution variables.
 
 ``` yaml
 # General
+redis_manage_system_optimization: True
 redis_manage_additional_repository: True
 redis_manage_redis_sentinel: False
 redis_manage_redis_server: True
@@ -66,6 +71,12 @@ redis_repository_cache_valid_time: 3600
 redis_repository_keyserver: "{{ _redis_repository_keyserver | default('') }}"
 redis_repository_key_id: "{{ _redis_repository_key_id | default('') }}"
 redis_repositories: "{{ _redis_repositories | default([]) }}"
+
+# System optimization
+redis_system_optimization_overcommit_memory_value: 1
+redis_system_optimization_overcommit_memory_state: 'present'
+redis_system_optimization_somaxconn_value: 65535
+redis_system_optimization_somaxconn_state: 'present'
 
 
 # Redis server specific vars
