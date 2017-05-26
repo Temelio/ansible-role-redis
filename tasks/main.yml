@@ -9,6 +9,15 @@
     - 'role::redis::init'
 
 
+- name: 'INSTALL | Manage system settings to increase Redis performances'
+  become: True
+  include: "{{ role_path }}/tasks/optimize_system.yml"
+  when: 'redis_manage_system_optimization'
+  tags:
+    - 'role::redis'
+    - 'role::redis::install'
+
+
 - name: 'INSTALL | Manage distribution specific installation tasks'
   become: True
   include: "{{ role_path }}/tasks/install/{{ ansible_os_family | lower }}_family.yml"

@@ -1,0 +1,6 @@
+---
+
+# Requirement file for testing only
+
+- src: 'infOpen.sysfs'
+  version: '0.1.0'

@@ -95,3 +95,19 @@ def test_redis_processes(host):
 
     # Redis Sentinel
     assert len(host.process.filter(user='redis', comm='redis-sentinel')) == 1
+
+
+def test_warnings_in_log_files(host):
+    """
+    Check we have no warning in logs, with the optmization tasks enabled and
+    sysfs rules
+    """
+
+    log_files_paths = [
+        '/var/log/redis/redis-server.log',
+        '/var/log/redis/redis-sentinel.log',
+    ]
+
+    for log_file_path in log_files_paths:
+        run_command = 'grep -i "warning" {}'.format(log_file_path)
+        assert host.run_expect([1], run_command)
