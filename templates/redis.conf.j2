@@ -263,7 +263,7 @@ repl-disable-tcp-nodelay {{ redis_server_repl_disable_tcp_nodelay }}
 #
 # The backlog is only allocated once there is at least a slave connected.
 #
-# repl-backlog-size {{ redis_server_repl_backlog_size }}
+repl-backlog-size {{ redis_server_repl_backlog_size }}
 
 # After a master has no longer connected slaves for some time, the backlog
 # will be freed. The following option configures the amount of seconds that
@@ -272,7 +272,7 @@ repl-disable-tcp-nodelay {{ redis_server_repl_disable_tcp_nodelay }}
 #
 # A value of 0 means to never release the backlog.
 #
-# repl-backlog-ttl {{ redis_server_repl_backlog_ttl }}
+repl-backlog-ttl {{ redis_server_repl_backlog_ttl }}
 
 # The slave priority is an integer number published by Redis in the INFO output.
 # It is used by Redis Sentinel in order to select a slave to promote into a
@@ -718,3 +718,6 @@ aof-rewrite-incremental-fsync {{ redis_server_aof_rewrite_incremental_fsync }}
 #
 # include /path/to/local.conf
 # include /path/to/other.conf
+{% for redis_include_item in redis_server_include %}
+include {{ redis_include_item }}
+{% endfor %}
