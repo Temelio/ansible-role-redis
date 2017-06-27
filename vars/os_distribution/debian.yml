@@ -5,5 +5,9 @@
 _redis_repository_keyserver: 'keyserver.ubuntu.com'
 _redis_repository_key_id: '7E3F070089DF5277'
 _redis_repositories:
-  - repo: 'deb http://packages.dotdeb.org stable all'
-  - repo: 'deb-src http://packages.dotdeb.org stable all'
+  - repo: >
+      deb http://packages.dotdeb.org
+      {{ ansible_distribution_release | lower }} all
+  - repo: >
+      deb-src http://packages.dotdeb.org
+      {{ ansible_distribution_release | lower }} all
