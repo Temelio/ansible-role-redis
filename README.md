@@ -67,7 +67,7 @@ redis_manage_redis_sentinel: False
 redis_manage_redis_server: True
 
 # Repository management
-redis_repository_cache_valid_time: 3600
+redis_apt_cache_valid_time: 3600
 redis_repository_keyserver: "{{ _redis_repository_keyserver | default('') }}"
 redis_repository_key_id: "{{ _redis_repository_key_id | default('') }}"
 redis_repositories: "{{ _redis_repositories | default([]) }}"
@@ -77,6 +77,9 @@ redis_system_optimization_overcommit_memory_value: 1
 redis_system_optimization_overcommit_memory_state: 'present'
 redis_system_optimization_somaxconn_value: 65535
 redis_system_optimization_somaxconn_state: 'present'
+
+# System dependencies
+redis_system_dependencies: "{{ _redis_system_dependencies }}"
 
 
 # Redis server specific vars
