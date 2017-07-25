@@ -2,6 +2,15 @@
 
 # Specific install tasks for Debian family
 
+- name: 'INSTALL | APT | Install system dependencies'
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state | default('present') }}"
+    update_cache: True
+    cache_valid_time: "{{ redis_apt_cache_valid_time }}"
+  with_items: "{{ redis_system_dependencies }}"
+
+
 - name: 'INSTALL | APT | Manage repository key'
   apt_key:
     keyserver: "{{ redis_repository_keyserver }}"
@@ -25,7 +34,7 @@
     name: "{{ item.name }}"
     state: "{{ item.state | default('present') }}"
     update_cache: True
-    cache_valid_time: "{{ redis_repository_cache_valid_time }}"
+    cache_valid_time: "{{ redis_apt_cache_valid_time }}"
   notify: 'HANDLER | Restart Redis server'
   with_items: "{{ redis_server_packages }}"
   when: 'redis_manage_redis_server'
@@ -36,7 +45,7 @@
     name: "{{ item.name }}"
     state: "{{ item.state | default('present') }}"
     update_cache: True
-    cache_valid_time: "{{ redis_repository_cache_valid_time }}"
+    cache_valid_time: "{{ redis_apt_cache_valid_time }}"
   notify: 'HANDLER | Restart Redis Sentinel'
   with_items: "{{ redis_sentinel_packages }}"
   when: 'redis_manage_redis_sentinel'
