@@ -17,7 +17,7 @@ _redis_folders:
 
 
 # Redis server specific vars
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Packages management
 _redis_server_packages:
@@ -30,7 +30,7 @@ _redis_server_service_name: 'redis-server'
 
 
 # Redis sentinel specific vars
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Packages management
 _redis_sentinel_packages:
