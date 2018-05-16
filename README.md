@@ -76,7 +76,7 @@ redis_system_dependencies: "{{ _redis_system_dependencies }}"
 
 
 # Redis server specific vars
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Package management
 redis_server_packages: "{{ _redis_server_packages }}"
@@ -87,7 +87,6 @@ redis_server_service_state: 'started'
 redis_server_service_enabled: True
 
 # Files configuration
-#--------------------
 redis_folders: "{{ _redis_folders }}"
 redis_server_config_file:
   name: 'redis.conf'
@@ -191,7 +190,7 @@ redis_server_include: []
 
 
 # Redis sentinel specific vars
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Package management
 redis_sentinel_packages: "{{ _redis_sentinel_packages }}"
@@ -251,7 +250,7 @@ _redis_folders:
 
 
 # Redis server specific vars
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Packages management
 _redis_server_packages:
@@ -262,7 +261,7 @@ _redis_server_service_name: 'redis-server'
 
 
 # Redis sentinel specific vars
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Packages management
 _redis_sentinel_packages:
