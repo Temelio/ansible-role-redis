@@ -1,20 +1,23 @@
 # redis
 
-[![Build Status](https://img.shields.io/travis/infOpen/ansible-role-redis/master.svg?label=travis_master)](https://travis-ci.org/infOpen/ansible-role-redis)
-[![Build Status](https://img.shields.io/travis/infOpen/ansible-role-redis/develop.svg?label=travis_develop)](https://travis-ci.org/infOpen/ansible-role-redis)
-[![Updates](https://pyup.io/repos/github/infOpen/ansible-role-redis/shield.svg)](https://pyup.io/repos/github/infOpen/ansible-role-redis/)
-[![Python 3](https://pyup.io/repos/github/infOpen/ansible-role-redis/python-3-shield.svg)](https://pyup.io/repos/github/infOpen/ansible-role-redis/)
-[![Ansible Role](https://img.shields.io/ansible/role/8368.svg)](https://galaxy.ansible.com/infOpen/redis/)
+[![License](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://img.shields.io/travis/temelio/ansible-role-redis/master.svg?label=travis_master)](https://travis-ci.org/temelio/ansible-role-redis)
+[![Build Status](https://img.shields.io/travis/Temelio/ansible-role-redis/develop.svg?label=travis_develop)](https://travis-ci.org/temelio/ansible-role-redis)
+[![Updates](https://pyup.io/repos/github/temelio/ansible-role-redis/shield.svg)](https://pyup.io/repos/github/temelio/ansible-role-redis/)
+[![Python 3](https://pyup.io/repos/github/temelio/ansible-role-redis/python-3-shield.svg)](https://pyup.io/repos/github/temelio/ansible-role-redis/)
+[![Ansible Role](https://img.shields.io/ansible/role/8368.svg)](https://galaxy.ansible.com/temelio/redis/)
+[![Ansible Role](https://img.shields.io/ansible/role/11378.svg)](https://galaxy.ansible.com/Temelio/collectd/)
+[![GitHub tag](https://img.shields.io/github/tag/temelio/ansible-role-collectd.svg)](https://github.com/Temelio/ansible-role-collectd/tags)
 
 Install redis package.
 
 > By default, this role will also managed sysctl settings (overcommit, somaxconn) to remove warnings
-> You also need Transparent Huge Pages management, see infopen.sysfs role to manage these settings per example
+> You also need Transparent Huge Pages management, see temelio.sysfs role to manage these settings per example
 > I've set it for test dependencies only
 
 ## Requirements
 
-This role requires Ansible 2.2 or higher,
+This role requires Ansible 2.4 or higher,
 and platform requirements are listed in the metadata file.
 
 ## Testing
@@ -25,14 +28,16 @@ Local and Travis tests run tests on Docker by default.
 See molecule documentation to use other backend.
 
 Currently, tests are done on:
-- Debian Jessie
+- Debian Stretch
 - Ubuntu Trusty
 - Ubuntu Xenial
+- Ubuntu Bionic
 
 and use:
-- Ansible 2.2.x
-- Ansible 2.3.x
 - Ansible 2.4.x
+- Ansible 2.5.x
+- Ansible 2.6.x
+- Ansible 2.7.x
 
 ### Running tests
 
@@ -44,7 +49,7 @@ $ tox
 
 ## Additional repository management
 
-To have a more recent Redis version and have access to Sentinel on Debian Jessie, addtional repositories must be used via *redis_manage_additional_repository* variable.
+To have a more recent Redis version addtional repositories must be used via *redis_manage_additional_repository* variable.
 
 You can see these repositories below, in OS distribution variables.
 
@@ -306,7 +311,7 @@ None
 ``` yaml
 - hosts: servers
   roles:
-    - { role: infOpen.redis }
+    - { role: temelio.redis }
 ```
 
 ## License
@@ -315,6 +320,5 @@ MIT
 
 ## Author Information
 
-Alexandre Chaussier (for Infopen company)
-- http://www.infopen.pro
-- a.chaussier [at] infopen.pro
+L Machetel (for Temelio company)
+Fork from Alexandre Chaussier (for Infopen company)
