@@ -1,0 +1,6 @@
+---
+
+# specific var for Bionic
+
+# Service management
+_redis_folders_pid_sentinel: '/var/run/sentinel'

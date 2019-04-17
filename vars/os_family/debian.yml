@@ -12,6 +12,8 @@ _redis_folders:
     path: '/var/log/redis'
   pid:
     path: '/var/run/redis'
+  pid_sentinel:
+    path: "{{ _redis_folders_pid_sentinel }}"
   socket:
     path: '/var/run/redis'
 

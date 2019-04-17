@@ -1,0 +1,5 @@
+---
+
+# specific vars for Trusty
+
+_redis_folders_pid_sentinel: '/var/run/redis'

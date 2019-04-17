@@ -25,7 +25,7 @@
     filename: "{{ item.filename | default(omit) }}"
     mode: "{{ item.mode | default(omit) }}"
     state: "{{ item.state | default('present') }}"
-  with_items: "{{ redis_repositories }}"
+  with_items: "{{ redis_repositories }}"
   when: 'redis_manage_additional_repository'
 
 
