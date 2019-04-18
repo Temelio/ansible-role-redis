@@ -1,6 +1,7 @@
 ---
 
 galaxy_info:
+  role_name: 'redis'
   author: 'A Chaussier, L Machetel'
   description: 'Ansible role to install and configure Redis'
   company: 'Temelio (https://www.temelio.com)'

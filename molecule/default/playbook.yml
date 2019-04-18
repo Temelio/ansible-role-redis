@@ -25,7 +25,7 @@
       changed_when: False
       when: "ansible_os_family | lower == 'debian'"
   roles:
-    - role: 'infOpen.sysfs'
+    - role: 'temelio.sysfs'
 
 
 - name: 'Converge | Main tasks'
