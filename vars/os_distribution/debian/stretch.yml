@@ -4,3 +4,6 @@
 
 # Service management
 _redis_folders_pid_sentinel: '/var/run/redis'
+
+# systemd
+is_systemd_managed: True

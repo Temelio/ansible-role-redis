@@ -2,4 +2,7 @@
 
 # specific vars for Trusty
 
-_redis_folders_pid_sentinel: '/var/run/redis'
+_redis_folders_pid_sentinel: '/var/run/sentinel'
+
+# systemd
+is_systemd_managed: False
