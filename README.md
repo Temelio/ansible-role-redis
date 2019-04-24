@@ -8,7 +8,7 @@
 [![Ansible Role](https://img.shields.io/ansible/role/39695.svg)](https://galaxy.ansible.com/temelio/redis/)
 [![GitHub tag](https://img.shields.io/github/tag/temelio/ansible-role-redis.svg)](https://github.com/Temelio/ansible-role-redis/tags)
 
-Install redis package.
+Install redis package (version > 5).
 
 > By default, this role will also managed sysctl settings (overcommit, somaxconn) to remove warnings
 > You also need Transparent Huge Pages management, see temelio.sysfs role to manage these settings per example

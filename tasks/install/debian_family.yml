@@ -50,7 +50,7 @@
   with_items: "{{ redis_sentinel_packages }}"
   when: 'redis_manage_redis_sentinel'
 
-- name: 'INSTALL | systemd | remove alias name in systemd file'
+- name: 'SYSTEMD | remove alias name in redis systemd file'
   lineinfile:
     path: "/lib/systemd/system/{{ redis_server_service_name }}.service"
     regexp: "^Alias="
@@ -59,7 +59,27 @@
     - (ansible_distribution_release | lower) == 'bionic'
     - is_systemd_managed
 
-- name: 'INSTALL | systemd | remove alias name in systemd file'
+- name: 'SYSTEMD | remove /var/run in redis systemd file'
+  lineinfile:
+    path: "/lib/systemd/system/{{ redis_server_service_name }}.service"
+    regexp: "^PIDFile=/.*run/redis/redis-server.pid"
+    line: "PIDFile=/run/redis/redis-server.pid"
+    state: 'present'
+  when:
+    - (ansible_distribution_release | lower) == 'bionic'
+    - is_systemd_managed
+
+- name: 'SYSTEMD | replace /var/run in redis systemd file'
+  lineinfile:
+    path: "/lib/systemd/system/{{ redis_server_service_name }}.service"
+    regexp: "^ReadWriteDirectories=-/.*run/redis"
+    line: "ReadWriteDirectories=-/run/redis"
+    state: 'present'
+  when:
+    - (ansible_distribution_release | lower) == 'bionic'
+    - is_systemd_managed
+
+- name: 'SYSTEMD | remove alias name in sentinel systemd file'
   lineinfile:
     path: "/lib/systemd/system/{{ redis_sentinel_service_name }}.service"
     regexp: "^Alias="
@@ -67,6 +87,16 @@
   when:
     - (ansible_distribution_release | lower) == 'bionic'
     - is_systemd_managed
+
+- name: 'SYSTEMD | type simple in redis systemd file if daemonize no'
+  lineinfile:
+    path: "/lib/systemd/system/{{ redis_sentinel_service_name }}.service"
+    regexp: "^Type=forking"
+    line: "Type=simple"
+    state: 'present'
+  when:
+    - is_systemd_managed
+    - redis_server_daemonize == 'no'
 
 - name: 'INSTALL | enable redis-server service'
   systemd:
