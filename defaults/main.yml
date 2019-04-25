@@ -44,6 +44,7 @@ redis_server_config_file:
 
 # General server configuration
 redis_server_daemonize: 'yes'
+redis_server_supervised: 'auto'
 redis_server_pid_file: "{{ redis_folders.pid.path }}/redis-server.pid"
 redis_server_port: 6379
 redis_server_bind_ip:
@@ -73,20 +74,20 @@ redis_server_dbfilename: 'dump.rdb'
 redis_server_dir: "{{ redis_folders.data.path }}"
 
 # Replication configuration
-redis_server_slaveof: False
-redis_server_slaveof_master_ip: ''
-redis_server_slaveof_master_port: ''
+redis_server_replicaof: False
+redis_server_replicaof_master_ip: ''
+redis_server_replicaof_master_port: ''
 redis_server_master_auth: ''
-redis_server_slave_serve_stale_data: 'yes'
-redis_server_slave_read_only: 'yes'
-redis_server_repl_ping_slave_period: 10
+redis_server_replica_serve_stale_data: 'yes'
+redis_server_replica_read_only: 'yes'
+redis_server_repl_ping_replica_period: 10
 redis_server_repl_timeout: 60
 redis_server_repl_disable_tcp_nodelay: 'no'
 redis_server_repl_backlog_size: '1mb'
 redis_server_repl_backlog_ttl: 3600
-redis_server_slave_priority: 100
-redis_server_min_slaves_to_write: 3
-redis_server_min_slaves_max_lag: 10
+redis_server_replica_priority: 100
+redis_server_min_replicas_to_write: 3
+redis_server_min_replicas_max_lag: 10
 
 # Security configuration
 redis_server_require_pass: ''
@@ -98,6 +99,12 @@ redis_server_limit_maxmemory: False
 redis_server_limit_maxmemory_size: 4000000000
 redis_server_maxmemory_policy: 'volatile-lru'
 redis_server_maxmemory_samples: 3
+
+# Lazy freeing
+redis_server_lazyfree_lazy_eviction: 'no'
+redis_server_lazyfree_lazy_expire: 'no'
+redis_server_lazyfree_lazy_server_del: 'no'
+redis_server_replica_lazy_flush: 'no'
 
 # Append only mode configuration
 redis_server_appendonly: 'no'
@@ -117,21 +124,31 @@ redis_server_slowlog_max_len: 128
 # Event notification configuration
 redis_server_notify_keyspace_events: ''
 
+# Latency Monitor
+redis_server_latency_monitor_threshold: 0
+
 # Advanced configuration
 redis_server_hash_max_ziplist_entries: 512
 redis_server_hash_max_ziplist_value: 64
 redis_server_list_max_ziplist_entries: 512
 redis_server_list_max_ziplist_value: 64
+redis_server_list_max_ziplist_size: '-2'
+redis_server_list_compress_depth: 0
 redis_server_set_max_intset_entries: 512
 redis_server_zset_max_ziplist_entries: 128
 redis_server_zset_max_ziplist_value: 64
+redis_server_hll_sparse_max_bytes: 3000
+redis_server_stream_mode_max_bytes: 4096
+redis_server_stream_mode_max_entries: 100
 redis_server_activerehashing: 'yes'
 redis_server_client_output_buffer_limit:
   - 'normal 0 0 0'
   - 'slave 256mb 64mb 60'
   - 'pubsub 32mb 8mb 60'
 redis_server_hz: 10
+redis_server_dynamic_hz: 'yes'
 redis_server_aof_rewrite_incremental_fsync: 'yes'
+redis_server_rdb_save_incremental_fsync: 'yes'
 
 # Includes
 redis_server_include: []
@@ -156,7 +173,7 @@ redis_sentinel_config_file:
   mode: '0600'
 
 # Configuration
-redis_sentinel_daemonize: True
+redis_sentinel_daemonize: 'yes'
 redis_sentinel_bind: 'localhost'
 redis_sentinel_port: 26379
 redis_sentinel_protected_mode: True

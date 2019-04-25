@@ -3,12 +3,12 @@
 [![License](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/travis/temelio/ansible-role-redis/master.svg?label=travis_master)](https://travis-ci.com/Temelio/ansible-role-redis)
 [![Build Status](https://img.shields.io/travis/Temelio/ansible-role-redis/develop.svg?label=travis_develop)](https://travis-ci.com/Temelio/ansible-role-redis)
-[![Updates](https://pyup.io/repos/github/temelio/ansible-role-redis/shield.svg)](https://pyup.io/repos/github/temelio/ansible-role-redis/)
-[![Python 3](https://pyup.io/repos/github/temelio/ansible-role-redis/python-3-shield.svg)](https://pyup.io/repos/github/temelio/ansible-role-redis/)
-[![Ansible Role](https://img.shields.io/ansible/role/39664.svg)](https://galaxy.ansible.com/temelio/redis/)
+[![Updates](https://pyup.io/repos/github/Temelio/ansible-role-redis/shield.svg)](https://pyup.io/repos/github/Temelio/ansible-role-redis/)
+[![Python 3](https://pyup.io/repos/github/Temelio/ansible-role-redis/python-3-shield.svg)](https://pyup.io/repos/github/Temelio/ansible-role-redis/)
+[![Ansible Role](https://img.shields.io/ansible/role/39695.svg)](https://galaxy.ansible.com/temelio/redis/)
 [![GitHub tag](https://img.shields.io/github/tag/temelio/ansible-role-redis.svg)](https://github.com/Temelio/ansible-role-redis/tags)
 
-Install redis package.
+Install redis package (version > 5).
 
 > By default, this role will also managed sysctl settings (overcommit, somaxconn) to remove warnings
 > You also need Transparent Huge Pages management, see temelio.sysfs role to manage these settings per example
@@ -301,6 +301,14 @@ _redis_repositories:
   - repo: 'deb-src http://ftp.utexas.edu/dotdeb/ stable all'
 ```
 
+
+### Ubuntu distributions variables
+
+``` yaml
+is_systemd_managed: True or False
+```
+
+
 ## Dependencies
 
 None
@@ -320,4 +328,4 @@ MIT
 ## Author Information
 
 L Machetel (for Temelio company)
-Fork from Alexandre Chaussier (for Infopen company)
+Fork from A Chaussier (for Infopen company)

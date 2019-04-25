@@ -49,3 +49,65 @@
   notify: 'HANDLER | Restart Redis Sentinel'
   with_items: "{{ redis_sentinel_packages }}"
   when: 'redis_manage_redis_sentinel'
+
+- name: 'SYSTEMD | remove alias name in redis systemd file'
+  lineinfile:
+    path: "/lib/systemd/system/{{ redis_server_service_name }}.service"
+    regexp: "^Alias="
+    state: 'absent'
+  when:
+    - (ansible_distribution_release | lower) == 'bionic'
+    - is_systemd_managed
+
+- name: 'SYSTEMD | remove /var/run in redis systemd file'
+  lineinfile:
+    path: "/lib/systemd/system/{{ redis_server_service_name }}.service"
+    regexp: "^PIDFile=/.*run/redis/redis-server.pid"
+    line: "PIDFile=/run/redis/redis-server.pid"
+    state: 'present'
+  when:
+    - (ansible_distribution_release | lower) == 'bionic'
+    - is_systemd_managed
+
+- name: 'SYSTEMD | replace /var/run in redis systemd file'
+  lineinfile:
+    path: "/lib/systemd/system/{{ redis_server_service_name }}.service"
+    regexp: "^ReadWriteDirectories=-/.*run/redis"
+    line: "ReadWriteDirectories=-/run/redis"
+    state: 'present'
+  when:
+    - (ansible_distribution_release | lower) == 'bionic'
+    - is_systemd_managed
+
+- name: 'SYSTEMD | remove alias name in sentinel systemd file'
+  lineinfile:
+    path: "/lib/systemd/system/{{ redis_sentinel_service_name }}.service"
+    regexp: "^Alias="
+    state: 'absent'
+  when:
+    - (ansible_distribution_release | lower) == 'bionic'
+    - is_systemd_managed
+
+- name: 'SYSTEMD | type simple in redis systemd file if daemonize no'
+  lineinfile:
+    path: "/lib/systemd/system/{{ redis_sentinel_service_name }}.service"
+    regexp: "^Type=forking"
+    line: "Type=simple"
+    state: 'present'
+  when:
+    - is_systemd_managed
+    - redis_server_daemonize == 'no'
+
+- name: 'INSTALL | enable redis-server service'
+  systemd:
+    name: "{{ redis_server_service_name }}.service"
+    daemon_reload: True
+    enabled: "{{ redis_server_service_enabled }}"
+  when: is_systemd_managed
+
+- name: 'INSTALL | enable redis-sentinel service'
+  systemd:
+    name: "{{ redis_sentinel_service_name }}.service"
+    daemon_reload: True
+    enabled: "{{ redis_sentinel_service_enabled }}"
+  when: is_systemd_managed
