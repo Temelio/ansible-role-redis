@@ -1,39 +1,42 @@
 # redis
 
-[![Build Status](https://img.shields.io/travis/infOpen/ansible-role-redis/master.svg?label=travis_master)](https://travis-ci.org/infOpen/ansible-role-redis)
-[![Build Status](https://img.shields.io/travis/infOpen/ansible-role-redis/develop.svg?label=travis_develop)](https://travis-ci.org/infOpen/ansible-role-redis)
-[![Updates](https://pyup.io/repos/github/infOpen/ansible-role-redis/shield.svg)](https://pyup.io/repos/github/infOpen/ansible-role-redis/)
-[![Python 3](https://pyup.io/repos/github/infOpen/ansible-role-redis/python-3-shield.svg)](https://pyup.io/repos/github/infOpen/ansible-role-redis/)
-[![Ansible Role](https://img.shields.io/ansible/role/8368.svg)](https://galaxy.ansible.com/infOpen/redis/)
+[![License](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://img.shields.io/travis/temelio/ansible-role-redis/master.svg?label=travis_master)](https://travis-ci.com/Temelio/ansible-role-redis)
+[![Build Status](https://img.shields.io/travis/Temelio/ansible-role-redis/develop.svg?label=travis_develop)](https://travis-ci.com/Temelio/ansible-role-redis)
+[![Updates](https://pyup.io/repos/github/Temelio/ansible-role-redis/shield.svg)](https://pyup.io/repos/github/Temelio/ansible-role-redis/)
+[![Python 3](https://pyup.io/repos/github/Temelio/ansible-role-redis/python-3-shield.svg)](https://pyup.io/repos/github/Temelio/ansible-role-redis/)
+[![Ansible Role](https://img.shields.io/ansible/role/39695.svg)](https://galaxy.ansible.com/temelio/redis/)
+[![GitHub tag](https://img.shields.io/github/tag/temelio/ansible-role-redis.svg)](https://github.com/Temelio/ansible-role-redis/tags)
 
-Install redis package.
+Install redis package (version > 5).
 
 > By default, this role will also managed sysctl settings (overcommit, somaxconn) to remove warnings
-> You also need Transparent Huge Pages management, see infopen.sysfs role to manage these settings per example
+> You also need Transparent Huge Pages management, see temelio.sysfs role to manage these settings per example
 > I've set it for test dependencies only
 
 ## Requirements
 
-This role requires Ansible 2.0 or higher,
+This role requires Ansible 2.4 or higher,
 and platform requirements are listed in the metadata file.
 
 ## Testing
 
 This role use [Molecule](https://github.com/metacloud/molecule/) to run tests.
 
-Locally, you can run tests on Docker (default driver) or Vagrant.
-Travis run tests using Docker driver only.
+Local and Travis tests run tests on Docker by default.
+See molecule documentation to use other backend.
 
 Currently, tests are done on:
-- Debian Jessie
+- Debian Stretch
 - Ubuntu Trusty
 - Ubuntu Xenial
+- Ubuntu Bionic
 
 and use:
-- Ansible 2.0.x
-- Ansible 2.1.x
-- Ansible 2.2.x
-- Ansible 2.3.x
+- Ansible 2.4.x
+- Ansible 2.5.x
+- Ansible 2.6.x
+- Ansible 2.7.x
 
 ### Running tests
 
@@ -43,15 +46,9 @@ and use:
 $ tox
 ```
 
-#### Using Vagrant driver
-
-```
-$ MOLECULE_DRIVER=vagrant tox
-```
-
 ## Additional repository management
 
-To have a more recent Redis version and have access to Sentinel on Debian Jessie, addtional repositories must be used via *redis_manage_additional_repository* variable.
+To have a more recent Redis version addtional repositories must be used via *redis_manage_additional_repository* variable.
 
 You can see these repositories below, in OS distribution variables.
 
@@ -83,7 +80,7 @@ redis_system_dependencies: "{{ _redis_system_dependencies }}"
 
 
 # Redis server specific vars
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Package management
 redis_server_packages: "{{ _redis_server_packages }}"
@@ -94,7 +91,6 @@ redis_server_service_state: 'started'
 redis_server_service_enabled: True
 
 # Files configuration
-#--------------------
 redis_folders: "{{ _redis_folders }}"
 redis_server_config_file:
   name: 'redis.conf'
@@ -198,7 +194,7 @@ redis_server_include: []
 
 
 # Redis sentinel specific vars
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Package management
 redis_sentinel_packages: "{{ _redis_sentinel_packages }}"
@@ -258,7 +254,7 @@ _redis_folders:
 
 
 # Redis server specific vars
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Packages management
 _redis_server_packages:
@@ -269,7 +265,7 @@ _redis_server_service_name: 'redis-server'
 
 
 # Redis sentinel specific vars
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Packages management
 _redis_sentinel_packages:
@@ -305,6 +301,14 @@ _redis_repositories:
   - repo: 'deb-src http://ftp.utexas.edu/dotdeb/ stable all'
 ```
 
+
+### Ubuntu distributions variables
+
+``` yaml
+is_systemd_managed: True or False
+```
+
+
 ## Dependencies
 
 None
@@ -314,7 +318,7 @@ None
 ``` yaml
 - hosts: servers
   roles:
-    - { role: infOpen.redis }
+    - { role: temelio.redis }
 ```
 
 ## License
@@ -323,6 +327,5 @@ MIT
 
 ## Author Information
 
-Alexandre Chaussier (for Infopen company)
-- http://www.infopen.pro
-- a.chaussier [at] infopen.pro
+L Machetel (for Temelio company)
+Fork from A Chaussier (for Infopen company)

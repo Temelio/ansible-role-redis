@@ -1,4 +1,4 @@
-# {{ ansible_managed }}
+{{ ansible_managed | comment }}
 
 daemonize {{ redis_sentinel_daemonize | ternary('yes', 'no') }}
 

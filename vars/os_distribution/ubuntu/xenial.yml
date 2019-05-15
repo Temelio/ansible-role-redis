@@ -1,0 +1,9 @@
+---
+
+# specific var for Xenial
+
+# Service management
+_redis_folders_pid_sentinel: '/var/run/sentinel'
+
+# systemd
+is_systemd_managed: True

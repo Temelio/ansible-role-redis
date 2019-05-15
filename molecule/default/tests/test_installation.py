@@ -1,10 +1,12 @@
 """
-Role installation tests
+Role tests
 """
 
+import os
 from testinfra.utils.ansible_runner import AnsibleRunner
 
-testinfra_hosts = AnsibleRunner('.molecule/ansible_inventory').get_hosts('all')
+testinfra_hosts = AnsibleRunner(
+    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
 
 def test_packages(host):
@@ -37,20 +39,23 @@ def test_redis_services(host):
     for service in services:
         assert host.service(service).is_enabled
 
-        # Systemctl not available with Docker images
-        if host.backend.NAME != 'docker':
-            assert host.service(service).is_running
+        assert host.service(service).is_running
 
 
 def test_system_user(host):
     """
     Check if system user exists
     """
-
-    assert host.user('redis').exists
-    assert host.user('redis').group == 'redis'
-    assert host.user('redis').home == '/var/lib/redis'
-    assert host.user('redis').shell == '/bin/false'
+    if host.system_info.codename == 'bionic':
+        assert host.user('redis').exists
+        assert host.user('redis').group == 'redis'
+        assert host.user('redis').home == '/var/lib/redis'
+        assert host.user('redis').shell == '/usr/sbin/nologin'
+    else:
+        assert host.user('redis').exists
+        assert host.user('redis').group == 'redis'
+        assert host.user('redis').home == '/var/lib/redis'
+        assert host.user('redis').shell == '/bin/false'
 
 
 def test_config_files(host):

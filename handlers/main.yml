@@ -7,6 +7,7 @@
   service:
     name: "{{ redis_server_service_name }}"
     state: 'restarted'
+    enabled: "{{ redis_server_service_enabled }}"
   tags:
     - 'role::redis'
     - 'role::redis::config'
@@ -18,6 +19,7 @@
   service:
     name: "{{ redis_sentinel_service_name }}"
     state: 'restarted'
+    enabled: "{{ redis_sentinel_service_enabled }}"
   tags:
     - 'role::redis'
     - 'role::redis::config'

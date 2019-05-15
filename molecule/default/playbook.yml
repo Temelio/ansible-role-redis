@@ -2,8 +2,8 @@
 
 # Role tests
 
-- hosts: 'redis-vagrant-xenial64:redis-docker-xenial'
-  name: 'Install tests prerequisites'
+- name: 'Converge | Prerequisites tasks'
+  hosts: 'redis-docker-xenial'
   gather_facts: False
   tasks:
     - name: 'PREREQUISITES | APT | Do an apt-get update'
@@ -25,11 +25,10 @@
       changed_when: False
       when: "ansible_os_family | lower == 'debian'"
   roles:
-    - role: 'infOpen.sysfs'
+    - role: 'temelio.sysfs'
 
 
-- hosts: 'all'
+- name: 'Converge | Main tasks'
+  hosts: 'all'
   roles:
-    - role: "{{ role_name }}"
-  vars:
-    role_name: "{{ playbook_dir | basename }}"
+    - role: "ansible-role-redis"
