@@ -51,6 +51,11 @@ def test_system_user(host):
         assert host.user('redis').group == 'redis'
         assert host.user('redis').home == '/var/lib/redis'
         assert host.user('redis').shell == '/usr/sbin/nologin'
+    elif host.system_info.codename == 'disco':
+        assert host.user('redis').exists
+        assert host.user('redis').group == 'redis'
+        assert host.user('redis').home == '/var/lib/redis'
+        assert host.user('redis').shell == '/usr/sbin/nologin'
     else:
         assert host.user('redis').exists
         assert host.user('redis').group == 'redis'

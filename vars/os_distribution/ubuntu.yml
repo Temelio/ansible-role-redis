@@ -2,8 +2,9 @@
 
 # Ubuntu distributions specific vars
 
-_redis_repository_keyserver: 'keyserver.ubuntu.com'
-_redis_repository_key_id: 'C7917B12'
+_redis_repositories_keys:
+  - keyserver: 'keyserver.ubuntu.com'
+    key_id: 'B9316A7BC7917B12'
 _redis_repositories:
   - repo: >
       deb http://ppa.launchpad.net/chris-lea/redis-server/{{ ansible_distribution | lower }}

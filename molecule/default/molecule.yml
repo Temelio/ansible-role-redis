@@ -7,12 +7,6 @@ driver:
 lint:
   name: 'yamllint'
 platforms:
-  - name: "redis-docker-stretch"
-    image: 'minimum2scp/systemd-stretch'
-    command: '/sbin/init'
-    cap_add:
-      - 'SYS_PTRACE'
-    privileged: True
   - name: "redis-docker-xenial"
     image: 'solita/ubuntu-systemd:16.04'
     command: '/sbin/init'
@@ -26,6 +20,12 @@ platforms:
     privileged: True
   - name: "redis-docker-bionic"
     image: 'solita/ubuntu-systemd:18.04'
+    command: '/sbin/init'
+    cap_add:
+      - 'SYS_PTRACE'
+    privileged: True
+  - name: "redis-docker-disco"
+    image: 'magehost/ubuntu-systemd:disco'
     command: '/sbin/init'
     cap_add:
       - 'SYS_PTRACE'

@@ -13,9 +13,10 @@
 
 - name: 'INSTALL | APT | Manage repository key'
   apt_key:
-    keyserver: "{{ redis_repository_keyserver }}"
-    id: "{{ redis_repository_key_id }}"
+    keyserver: "{{ item.keyserver }}"
+    id: "{{ item.key_id }}"
   when: 'redis_manage_additional_repository'
+  with_items: "{{ redis_repositories_keys }}"
 
 
 - name: 'INSTALL | APT | Configure additional repositories'

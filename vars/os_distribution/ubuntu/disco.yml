@@ -1,0 +1,24 @@
+---
+
+# specific var for Disco
+
+# Service management
+_redis_folders_pid_sentinel: '/var/run/sentinel'
+
+# systemd
+is_systemd_managed: True
+
+# Redis paths
+_redis_folders:
+  config:
+    path: '/etc/redis'
+  data:
+    path: '/var/lib/redis'
+  log:
+    path: '/var/log/redis'
+  pid:
+    path: '/run/redis'
+  pid_sentinel:
+    path: "{{ _redis_folders_pid_sentinel }}"
+  socket:
+    path: '/var/run/redis'

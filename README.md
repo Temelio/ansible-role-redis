@@ -27,10 +27,10 @@ Local and Travis tests run tests on Docker by default.
 See molecule documentation to use other backend.
 
 Currently, tests are done on:
-- Debian Stretch
 - Ubuntu Trusty
 - Ubuntu Xenial
 - Ubuntu Bionic
+- Ubuntu Disco
 
 and use:
 - Ansible 2.4.x
@@ -64,9 +64,9 @@ redis_manage_redis_sentinel: False
 redis_manage_redis_server: True
 
 # Repository management
+redis_repositories_keys: "{{ _redis_repositories_keys }}"
 redis_apt_cache_valid_time: 3600
 redis_repository_keyserver: "{{ _redis_repository_keyserver | default('') }}"
-redis_repository_key_id: "{{ _redis_repository_key_id | default('') }}"
 redis_repositories: "{{ _redis_repositories | default([]) }}"
 
 # System optimization
