@@ -2,8 +2,6 @@
 
 # Ubuntu distributions specific vars
 
-_redis_repository_keyserver: 'keyserver.ubuntu.com'
-_redis_repository_key_id: '7E3F070089DF5277'
 _redis_repositories:
   - repo: >
       deb http://packages.dotdeb.org
