@@ -1,8 +1,7 @@
 # redis
 
 [![License](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://img.shields.io/travis/temelio/ansible-role-redis/master.svg?label=travis_master)](https://travis-ci.com/Temelio/ansible-role-redis)
-[![Build Status](https://img.shields.io/travis/Temelio/ansible-role-redis/develop.svg?label=travis_develop)](https://travis-ci.com/Temelio/ansible-role-redis)
+[![Build Status](https://travis-ci.com/Temelio/ansible-role-redis.svg?branch=master)](https://travis-ci.com/Temelio/ansible-role-redis)
 [![Updates](https://pyup.io/repos/github/Temelio/ansible-role-redis/shield.svg)](https://pyup.io/repos/github/Temelio/ansible-role-redis/)
 [![Python 3](https://pyup.io/repos/github/Temelio/ansible-role-redis/python-3-shield.svg)](https://pyup.io/repos/github/Temelio/ansible-role-redis/)
 [![Ansible Role](https://img.shields.io/ansible/role/39695.svg)](https://galaxy.ansible.com/temelio/redis/)
@@ -27,10 +26,10 @@ Local and Travis tests run tests on Docker by default.
 See molecule documentation to use other backend.
 
 Currently, tests are done on:
-- Debian Stretch
 - Ubuntu Trusty
 - Ubuntu Xenial
 - Ubuntu Bionic
+- Ubuntu Disco
 
 and use:
 - Ansible 2.4.x
@@ -64,9 +63,9 @@ redis_manage_redis_sentinel: False
 redis_manage_redis_server: True
 
 # Repository management
+redis_repositories_keys: "{{ _redis_repositories_keys }}"
 redis_apt_cache_valid_time: 3600
 redis_repository_keyserver: "{{ _redis_repository_keyserver | default('') }}"
-redis_repository_key_id: "{{ _redis_repository_key_id | default('') }}"
 redis_repositories: "{{ _redis_repositories | default([]) }}"
 
 # System optimization
