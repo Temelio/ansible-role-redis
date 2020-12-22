@@ -1,4 +1,4 @@
-docker==4.1.0
+docker==4.4.1
 molecule==2.22
 pytest==4.4.1
 testinfra==3.4.0
